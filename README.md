@@ -9,8 +9,8 @@ Code will be released soon.
 If you find this work useful, please cite our paper:
 
 ```bibtex
-@misc{xiao2026treamingdllmacceleratingdiffusionllms,
-      title={treaming-dLLM: Accelerating Diffusion LLMs via Suffix Pruning and Dynamic Decoding}, 
+@misc{xiao2026streamingdllmacceleratingdiffusionllms,
+      title={Streaming-dLLM: Accelerating Diffusion LLMs via Suffix Pruning and Dynamic Decoding}, 
       author={Zhongyu Xiao and Zhiwei Hao and Jianyuan Guo and Yong Luo and Jia Liu and Jie Xu and Han Hu},
       year={2026},
       eprint={2601.17917},
