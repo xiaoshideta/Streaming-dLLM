@@ -7,13 +7,13 @@
 Streaming-dLLM is a training-free acceleration framework for diffusion language models that supports efficient inference for models like Dream, LLaDA and LLaDA-1.5.
 
 <div align="center">
-  <img src="fig/fig1.png" alt="Overall performance" width="800"/>
-  <p>Overall performance comparison</p>
+  <img src="fig/fig1.png" alt="Comparison" width="800"/>
+  <p>Comparison of accuracy and throughput across different acceleration strategies. Our proposed method improves inference throughput while maintaining competitive accuracy compared to prior approaches.</p>
 </div>
 
 <div align="center">
-  <img src="fig/fig2.png" alt="Overall performance" width="800"/>
-  <p>Overall performance comparison</p>
+  <img src="fig/fig2.png" alt="Illustration" width="800"/>
+  <p>Illustration of approximated suffix pruning. For each block, the nearest neighboring region following the current block is retained using a sliding window (red dashed box) and concatenated with the trailing position to form an approximate suffix region.</p>
 </div>
 
 ## Installation
