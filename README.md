@@ -12,7 +12,7 @@ Streaming-dLLM is a training-free acceleration framework for diffusion language 
 </div>
 
 <div align="center">
-  <img src="fig/main.png" alt="Overall performance" width="800"/>
+  <img src="fig/fig2.png" alt="Overall performance" width="800"/>
   <p>Overall performance comparison</p>
 </div>
 
