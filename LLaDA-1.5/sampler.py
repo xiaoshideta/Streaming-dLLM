@@ -1,38 +1,25 @@
 import torch
+import torch.nn.functional as F
 
-def deterministic_window_tail_sampler(tokens, window=32, keep_ratio=0.00, tail_keep=3):
+def deterministic_window_tail_sampler(tokens, window=32, tail_keep=3):
     L = len(tokens)
     if L == 0:
         return torch.tensor([], device=tokens.device, dtype=torch.long)
-    head_tokens = tokens[:min(window, L)]
+    
+    head_tokens = tokens[:min(int(window), L)]
+
     if L <= window:
         return head_tokens
+
     tail_keep = min(tail_keep, max(L - len(head_tokens), 0))
     tail_tokens = tokens[-tail_keep:] if tail_keep > 0 else torch.tensor([], device=tokens.device, dtype=torch.long)
 
-    mid_start = len(head_tokens)
-    mid_end = L - len(tail_tokens)
-    mid_tokens = tokens[mid_start:mid_end] if mid_end > mid_start else torch.tensor([], device=tokens.device)
-    
-    selected_mid = []
-    mid_len = len(mid_tokens)
-    if mid_len > 0 and keep_ratio > 0:
-        layer_size = window
-        for start in range(0, mid_len, layer_size):
-            end = min(start + layer_size, mid_len)
-            layer = mid_tokens[start:end]
-            keep_num = max(1, int(len(layer) * keep_ratio))
-            selected_mid.append(layer[:keep_num])
-        mid_tokens_kept = torch.cat(selected_mid)
-    else:
-        mid_tokens_kept = torch.tensor([], device=tokens.device, dtype=torch.long)
 
-    final_tokens = torch.cat([head_tokens, mid_tokens_kept, tail_tokens]).long()
+    final_tokens = torch.cat([head_tokens, tail_tokens]).long()
 
     return final_tokens
 
-import torch
-import torch.nn.functional as F
+
 
 def exponential_importance_sampler(tokens, total_budget=None, keep_ratio=0.1, alpha=50.0, beta=10.0):
     L = len(tokens)
