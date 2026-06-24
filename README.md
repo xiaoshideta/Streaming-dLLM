@@ -4,7 +4,7 @@
 [![arXiv](https://img.shields.io/badge/Paper-arXiv-red.svg)](https://arxiv.org/pdf/2601.17917)
 
 ## Introduction
-Streaming-dLLM is a training-free acceleration framework for diffusion language models that supports efficient inference for models like Dream, LLaDA and LLaDA-1.5.
+Streaming-dLLM is a training-free acceleration framework for diffusion language models that supports efficient inference for models like Dream, LLaDA and LLaDA-1.5. We also provide a lightweight extension for block-causal diffusion models, with Open Pangu as an example on Ascend 910B.
 
 <div align="center">
   <img src="fig/fig1.png" alt="Comparison" width="800"/>
@@ -35,6 +35,7 @@ Your project structure should look like this:
 ```shell
 |-- <Dream>
 |-- <LLaDA-1.5>
+|-- <OpenPangu>
 |-- <Other>
 ```
 ## Usage
@@ -45,6 +46,8 @@ Download the Dream model [here](https://huggingface.co/Dream-org/Dream-v0-Base-7
 Download the LLaDA model [here](https://huggingface.co/GSAI-ML/LLaDA-8B-Instruct).
 
 Download the LLaDA-1.5 model [here](https://huggingface.co/GSAI-ML/LLaDA-1.5).
+
+Download the Open Pangu model [here](https://ai.gitcode.com/ascend-tribe/openPangu-7B-Diffusion-Base).
 
 
 ### Dream
@@ -92,7 +95,24 @@ Our method achieves **3.7×–13.3× speedup** across all benchmarks over the va
 | **MATH (4-shot)**      | 256        | *32.7**<br>7.8 (1×)   | 31.8*<br>12.4 (1.6×)    | 32.5*<br>25.9 (3.3×) | 32.6<br>47.1 (6.0×)   | **33.7**<br>66.2 (8.5×)  |
 |                        | 512        | **37.1***<br>4.8 (1×) | *35.1**<br>7.5 (1.6×)   | 35.0*<br>13.9 (2.9×) | *35.1*<br>38.3 (7.9×) | *35.1*<br>62.4 (13.0×)   |
 
+### Open Pangu
+The Open Pangu adapter is placed under `OpenPangu`. Download the model weights first, then run:
 
+```shell
+cd OpenPangu/inference
+python generate_streaming.py --model-path /path/to/openPangu-7B-Diffusion-Base --prompt "introduce the china"
+```
+
+For block-causal diffusion models, the spatial redundancy reduction in Streaming-dLLM degenerates into a block-topology-aware special case. We therefore apply the temporal decoding module to Open Pangu. Each cell reports accuracy and throughput in tokens per second (TPS).
+
+| Benchmark | Open Pangu | Ours |
+| --- | --- | --- |
+| GSM8K | 69.29<br>11.8 TPS (1×) | **75.82**<br>18.3 TPS (1.6×) |
+| MATH | 41.14<br>9.7 TPS (1×) | **41.46**<br>13.1 TPS (1.4×) |
+| HumanEval | 47.56<br>10.4 TPS (1×) | **48.17**<br>14.6 TPS (1.4×) |
+| MMLU-Pro | 51.65<br>16.6 TPS (1×) | **51.65**<br>25.4 TPS (1.5×) |
+| BBH | 51.33<br>13.1 TPS (1×) | **51.66**<br>20.1 TPS (1.5×) |
+| CMMLU | **75.46**<br>18.2 TPS (1×) | 74.72<br>27.9 TPS (1.5×) |
 
 ## Citation
 
@@ -112,5 +132,4 @@ If you find this work useful, please cite our paper:
 
 ## Acknowledgements
 
-Part of our code is based on [Fast-dLLM](https://github.com/NVlabs/Fast-dLLM), [LLaDA](https://github.com/llada-project/llada) and [Dream](https://github.com/dream-project/dream),  thanks for their excellent work!
-
+Part of our code is based on [Fast-dLLM](https://github.com/NVlabs/Fast-dLLM), [LLaDA](https://github.com/llada-project/llada), [Dream](https://github.com/dream-project/dream), and [Open Pangu](https://ai.gitcode.com/ascend-tribe/openPangu-7B-Diffusion-Base), thanks for their excellent work!
